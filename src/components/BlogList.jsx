@@ -1,29 +1,32 @@
 import { useEffect, useState } from 'react';
-import { fireStore } from '../firebase';
-
+import { fireStore, collection, getDocs } from '../firebase';
 import { Link } from 'react-router-dom';
 
-
 const BlogList = () => {
-
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
         const fetchPosts = async () => {
-            const postsCollection = await fireStore.collection('posts').get();
-            setPosts(postsCollection.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+            try {
+                const postsCollection = collection(fireStore, 'posts');
+                const postsSnapshot = await getDocs(postsCollection);
+                const postsList = postsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setPosts(postsList);
+            } catch (error) {
+                console.error("Error fetching posts: ", error);
+            }
         };
         fetchPosts();
     }, []);
 
     return (
-        <div>
+        <div className="space-y-4">
             {posts.map(post => (
-                <div key={post.id}>
-                    <Link to={`/post/${post.id}`}>
-                        <h2>{post.title}</h2>
+                <div key={post.id} className="p-4 shadow-md rounded-md">
+                    <Link to={`/post/${post.id}`} className="block text-xl font-bold text-blue-500 hover:underline mb-2">
+                        {post.title}
                     </Link>
-                    <p>{post.content.substring(0, 100)}....</p>
+                    <p className="text-gray-700">{post.content.substring(0, 100)}...</p>
                 </div>
             ))}
         </div>

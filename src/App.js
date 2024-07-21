@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import CreatePostPage from './pages/CreatePostPage';
 import EditPostPage from './pages/EditPostPage';
-import PostPage from './pages/PostPage';
+import DeletePostPage from './pages/DeletePostPage';
+import SignUpPage from './pages/SignUpPage';
+import LogInPage from './pages/LogInPage';
 
 
 
@@ -13,9 +15,11 @@ function App() {
       <div className="App">
         <Routes>
           <Route path='/' element={<HomePage />} />
-          <Route path='/create-post' element={<CreatePostPage />} />
-          <Route path='/edit-post' element={<EditPostPage />} />
-          <Route path='/post' element={<PostPage />} />
+          <Route path='/signup' element={<SignUpPage />} />
+          <Route path='/login' element={<LogInPage />} />
+          <Route path='/create/post' element={<CreatePostPage />} />
+          <Route path='/edit/post/:id' element={<EditPostPage />} />
+          <Route path='/delete/post/:id' element={<DeletePostPage />} />
         </Routes>
       </div>
     </Router>
