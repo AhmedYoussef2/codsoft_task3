@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getFirestore, collection, getDocs, doc, setDoc, getDoc, serverTimestamp, addDoc, deleteDoc, updateDoc, query, where } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword } from 'firebase/auth';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCV8aLcPfBnFy5xU964CCoCrnBOnnofrMU",
@@ -16,15 +17,4 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const fireStore = getFirestore(app);
 
-export { auth, fireStore, collection, getDocs };
-
-
-
-/*import { auth } from '../firebase';
-
-const handleLogout = () => {
-  auth.signOut();
-};
-
-// Use this function in your components as needed
- */
+export { auth, fireStore, collection, getDocs, onAuthStateChanged, deleteDoc, signInWithEmailAndPassword, doc, getDoc, setDoc, updateDoc, query, where, serverTimestamp, createUserWithEmailAndPassword, addDoc };

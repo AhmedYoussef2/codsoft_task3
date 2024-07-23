@@ -14,8 +14,8 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/signup' element={<SignUpPage />} />
+          <Route path='/' element={<SignUpPage />} />
+          <Route path='/home/page' element={<HomePage />} />
           <Route path='/login' element={<LogInPage />} />
           <Route path='/create/post' element={<CreatePostPage />} />
           <Route path='/edit/post/:id' element={<EditPostPage />} />

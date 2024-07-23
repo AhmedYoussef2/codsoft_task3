@@ -1,32 +1,26 @@
 import { useState } from "react";
-import { fireStore, auth } from '../firebase';
+import { fireStore, collection, addDoc, auth } from '../firebase';
+import { useNavigate, Link } from "react-router-dom";
 
 const CreatePost = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const currentUser = auth.currentUser;
 
-        if (!currentUser) {
-            alert('You must be logged in to create a post.');
-            return;
-        }
-
-        const { uid } = currentUser;
-
         try {
-            await fireStore.collection('posts').add({
+            await addDoc(collection(fireStore, 'posts'), {
                 title,
                 content,
-                authId: uid,
+                authId: currentUser.uid,
                 createdAt: new Date()
             });
-
-            setTitle('');
-            setContent('');
+            console.log(currentUser.email);
+            navigate('/home/page');
         } catch (error) {
             console.error('Error adding post: ', error);
             alert('Failed to create post. Please try again later.');
@@ -58,12 +52,19 @@ const CreatePost = () => {
                     rows="5"
                 />
             </div>
-            <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-                Post
-            </button>
+
+            <div className='flex my-3 justify-end'>
+                <button
+                    type="submit"
+                    className="bg-blue-500 text-white no-cursor px-4 my-3 mx-4 px-2 py-1 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 no-cursor">
+                    Post
+                </button>
+                <Link to={`/home/page`}>
+                    <button className="bg-red-500 my-3 mx-4 text-white px-2 py-1 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 no-cursor">
+                        Cancel
+                    </button>
+                </Link>
+            </div>
         </form>
     );
 };
